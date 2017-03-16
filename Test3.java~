@@ -1,0 +1,28 @@
+import java.util.Date;
+
+class Test3 extends Thread {
+  private int pairs;
+  public long submissionTime;
+  public long finishedTime;
+
+  public Test3(String[] args) {
+    pairs = Integer.parseInt(args[0]);
+  }
+
+  public void run() {
+    submissionTime = new Date().getTime();
+    String[] threads3a = SysLib.stringToArgs("TestThread3a");
+    String[] threads3b = SysLib.stringToArgs("TestThread3b");
+    for (int i = 0; i < pairs; i++) {
+      SysLib.exec(threads3a);
+      SysLib.exec(threads3b);
+    }
+    for (int i = 0; i < pairs * 2; i++) {
+      SysLib.join();
+    }
+    finishedTime = new Date().getTime();
+
+    SysLib.cout("elapsed time = " + (finishedTime - submissionTime) + " msec.\n");
+    SysLib.exit();
+  }
+}
